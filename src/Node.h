@@ -7,6 +7,7 @@
 
 #ifndef NODE_H_
 #define NODE_H_
+#include <iostream>
 
 namespace std {
 
@@ -22,6 +23,8 @@ public:
 	bool getValue();
 	int getNivel();
 	void invertirValue();
+
+	void printChilds();
 private:
 	Node* left;
 	Node* right;

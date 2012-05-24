@@ -7,9 +7,15 @@
 //============================================================================
 
 #include <iostream>
+#include "FBT.h"
 using namespace std;
 
 int main() {
+
+	FBT* fbt = new FBT();
+	fbt->clearFbt(1);
+	//fbt->printTree();
+
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
 	return 0;
 }

@@ -53,7 +53,14 @@ void Node::invertirValue(){
 		(*value) = true;
 }
 
+void Node::printChilds(){
+	cout<<*index<<endl;
+	if(right != 0)
+		right->printChilds();
+	if(left != 0)
+		left ->printChilds();
 
+}
 
 
 } /* namespace std */

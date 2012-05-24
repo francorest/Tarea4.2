@@ -35,18 +35,45 @@ void FBT::createTree(Node* nodo, int nivel, int index){
 
 
 void FBT::clearFbt(int nivel){
-
+	root->clearChilds(nivel);
 }
 
 int FBT::ball(int nivel){
-	return 0;
+	return root->ball(nivel);
 }
 int FBT::process(int nivel, int repeticiones){
-	return 0;
+
+	clearFbt(nivel);
+	int retorno = 0;
+	for(int i = 0;i < repeticiones;i++)
+		retorno = ball(nivel);
+
+	return retorno;
 }
 
 void FBT::printTree(){
 	root->printChilds();
+}
+
+Lista<string>* FBT::split(string lin,char ch){
+
+	Lista<string>* auxList = new Lista<string>();
+
+	for(int i = 0; i < (int)(lin.size());++i){
+
+		if(lin[i] == ch){
+
+			auxList->add(lin.substr(0,i));
+			lin = lin.substr(i+1,lin.size()-i);
+			i=-1;
+		}
+		else if(i == (lin.size()-1) && lin[i] != ch){
+			auxList->add(lin.substr(0,i+1));
+		}
+
+	}
+
+	return auxList;
 }
 
 } /* namespace std */

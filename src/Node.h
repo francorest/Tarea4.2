@@ -23,6 +23,9 @@ public:
 	bool getValue();
 	int getNivel();
 	void invertirValue();
+	void setValue(bool val);
+	void clearChilds(int niv);
+	int ball(int niv);
 
 	void printChilds();
 private:

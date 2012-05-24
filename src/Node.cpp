@@ -53,6 +53,34 @@ void Node::invertirValue(){
 		(*value) = true;
 }
 
+void Node::setValue(bool val){
+	(*value) = val;
+}
+
+void Node::clearChilds(int niv){
+		setValue(false);
+		if(*nivel < niv){
+			right->clearChilds(niv);
+			left->clearChilds(niv);
+		}
+}
+
+int Node::ball(int niv){
+
+	if(*nivel == niv)
+		return *index;
+
+	else if(!*value){
+		invertirValue();
+		return left->ball(niv);
+	}
+
+	else{
+		invertirValue();
+		return right->ball(niv);
+	}
+}
+
 void Node::printChilds(){
 	cout<<*index<<endl;
 	if(right != 0)

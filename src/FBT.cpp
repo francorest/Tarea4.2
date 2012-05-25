@@ -10,36 +10,57 @@
 namespace std {
 
 FBT::FBT() {
-	root = new Node(1,1);
-	createTree(root,2,2);
+	nodes = new bool[1048575];
+	niveles = new int[20];
+	niveles[0] = 1;
+	niveles[1] = 3;
+	niveles[2] = 7;
+	niveles[3] = 15;
+	niveles[4] = 31;
+	niveles[5] = 63;
+	niveles[6] = 127;
+	niveles[7] = 255;
+	niveles[8] = 511;
+	niveles[9] = 1023;
+	niveles[10] = 2047;
+	niveles[11] = 4095;
+	niveles[12] = 8191;
+	niveles[13] = 16383;
+	niveles[14] = 32767;
+	niveles[15] = 65535;
+	niveles[16] = 131071;
+	niveles[17] = 262143;
+	niveles[18] = 524287;
+	niveles[19] = 1048575;
+
 
 }
 
 FBT::~FBT() {
-	delete root;
+	delete[] nodes;
 }
 
-void FBT::createTree(Node* nodo, int nivel, int index){
-
-	Node* left = new Node(index,nivel);
-	Node* right = new Node(index+1,nivel);
-	nodo->setLeftNode(left);
-	nodo->setRightNode(right);
-	if(nivel < 20){
-		++nivel;
-		createTree(right,nivel,(index+1)*2);
-		createTree(left,nivel,index*2);
-
+void FBT::clearFbt(int nivel){
+	for (int i = 0; i<niveles[nivel-1]; i++) {
+		nodes[i] = 0;
 	}
 }
 
-
-void FBT::clearFbt(int nivel){
-	root->clearChilds(nivel);
-}
-
 int FBT::ball(int nivel){
-	return root->ball(nivel);
+	int n = 1;
+	
+	
+	for (int i = 0; i<nivel-1; i++) {
+		nodes[n-1]=!nodes[n-1];
+		if (!nodes[n-1]) {
+			n=(n*2)+1;
+		}else {
+			n=n*2;
+		}
+	}
+	
+	return n;
+	
 }
 int FBT::process(int nivel, int repeticiones){
 
@@ -52,9 +73,13 @@ int FBT::process(int nivel, int repeticiones){
 }
 
 void FBT::printTree(){
-	root->printChilds();
+
 }
 
+	
+	
+	
+	
 Lista<string>* FBT::split(string lin,char ch){
 
 	Lista<string>* auxList = new Lista<string>();

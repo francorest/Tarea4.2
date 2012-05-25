@@ -16,7 +16,6 @@ using namespace std;
 int main() {
 
 
-	//cout << "INPUT"<<endl;
 	string numberOfTest;
 	getline(cin, numberOfTest);
 	int numberOfT = atoi(numberOfTest.c_str());
@@ -31,7 +30,7 @@ int main() {
 
 	FBT* fbt = new FBT();
 
-	//cout<<"OUTPUT"<<endl;
+	
 	for(int i = 0; i < numberOfT;i++){
 		Lista<string>* lista = fbt->split(listOfTest[i],' ');
 		int nivel = atoi(lista->get(0).c_str());

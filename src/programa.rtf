@@ -12,96 +12,6 @@
 \
 using namespace std;\
 \
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
-\cf0 class Node \{\
-public:\
-	Node(int ind, int niv) \{\
-	index = new int(ind);\
-	nivel = new int(niv);\
-	value = new bool(false);\
-	left = 0;\
-	right = 0;\
-\}\
-	~Node() \{\
-	delete index;\
-	delete nivel;\
-	delete value;\
-	delete left;\
-	delete right;\
-\}\
-	void setLeftNode(Node* l)\{\
-	left = l;\
-\}\
-	void setRightNode(Node* r)\{\
-	right = r;\
-\}\
-	Node* getLeftNode()\{\
-	return left;\
-\}\
-	Node* getRightNode()\{\
-	return right;\
-\}\
-\
-	int getIndex()\{\
-	return *index;\
-\}\
-	bool getValue()\{\
-	return *value;\
-\}\
-	int getNivel()\{\
-	return *nivel;\
-\}\
-	void invertirValue()\{\
-	if(*value)\
-		(*value) = false;\
-	else\
-		(*value) = true;\
-\}\
-	void setValue(bool val)\{\
-	(*value) = val;\
-\}\
-	void clearChilds(int niv)\{\
-		setValue(false);\
-		if(*nivel < niv)\{\
-			right->clearChilds(niv);\
-			left->clearChilds(niv);\
-		\}\
-\}\
-	int ball(int niv)\{\
-\
-	if(*nivel == niv)\
-		return *index;\
-\
-	else if(!*value)\{\
-		invertirValue();\
-		return left->ball(niv);\
-	\}\
-\
-	else\{\
-		invertirValue();\
-		return right->ball(niv);\
-	\}\
-\}\
-\
-	void printChilds()\{\
-	cout<<*index<<endl;\
-	if(right != 0)\
-		right->printChilds();\
-	if(left != 0)\
-		left ->printChilds();\
-\
-\}\
-private:\
-	Node* left;\
-	Node* right;\
-	int* index;\
-	bool* value;\
-	int* nivel;\
-\};\
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
-\cf0 \
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
-\cf0 \
 template <typename T>\
 class Lista \{\
 \
@@ -205,39 +115,61 @@ template <typename T>\
 T Lista<T>::get(int a)\{\
 	return info[a];\
 \}\
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
-\cf0 \
+\
 \
 class FBT \{\
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
-\cf0 private:\
-	Node* root;\
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
-\cf0 public:\
+private:\
+	bool* nodes;\
+int* niveles;\
+public:\
 	FBT()\{\
-root = new Node(1,1);\
-	createTree(root,2,2);\
+nodes = new bool[1048575];\
+	niveles = new int[20];\
+	niveles[0] = 1;\
+	niveles[1] = 3;\
+	niveles[2] = 7;\
+	niveles[3] = 15;\
+	niveles[4] = 31;\
+	niveles[5] = 63;\
+	niveles[6] = 127;\
+	niveles[7] = 255;\
+	niveles[8] = 511;\
+	niveles[9] = 1023;\
+	niveles[10] = 2047;\
+	niveles[11] = 4095;\
+	niveles[12] = 8191;\
+	niveles[13] = 16383;\
+	niveles[14] = 32767;\
+	niveles[15] = 65535;\
+	niveles[16] = 131071;\
+	niveles[17] = 262143;\
+	niveles[18] = 524287;\
+	niveles[19] = 1048575;\
+\
 \}\
 	 ~FBT()\{\
-delete root;\
+delete[] nodes;\
 \}\
-	void createTree(Node* nodo, int nivel, int index)\{\
-	Node* left = new Node(index,nivel);\
-	Node* right = new Node(index+1,nivel);\
-	nodo->setLeftNode(left);\
-	nodo->setRightNode(right);\
-	if(nivel < 20)\{\
-		++nivel;\
-		createTree(right,nivel,(index+1)*2);\
-		createTree(left,nivel,index*2);\
-\
+	\
+	void clearFbt(int nivel)\{\
+for (int i = 0; i<niveles[nivel-1]; i++) \{\
+		nodes[i] = 0;\
 	\}\
 \}\
-	void clearFbt(int nivel)\{\
-root->clearChilds(nivel);\
-\}\
 	int ball(int nivel)\{\
-return root->ball(nivel);\
+int n = 1;\
+	\
+	\
+	for (int i = 0; i<nivel-1; i++) \{\
+		nodes[n-1]=!nodes[n-1];\
+		if (!nodes[n-1]) \{\
+			n=(n*2)+1;\
+		\}else \{\
+			n=n*2;\
+		\}\
+	\}\
+	\
+	return n;\
 \}\
 	int process(int nivel,int repeticiones)\{\
 clearFbt(nivel);\
@@ -247,9 +179,7 @@ clearFbt(nivel);\
 \
 	return retorno;\
 \}\
-	void printTree()\{\
-root->printChilds();\
-\}\
+	\
 	Lista<string>* split(string lin, char ch)\{\
 	Lista<string>* auxList = new Lista<string>();\
 \
@@ -273,8 +203,7 @@ root->printChilds();\
 \};\
 \
 \
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
-\cf0 int main() \{\
+int main() \{\
 \
 \
 	//cout << "INPUT"<<endl;\
@@ -300,19 +229,7 @@ root->printChilds();\
 		cout<<fbt->process(nivel,repeticiones)<<endl;\
 	\}\
 \
-	/*int test = fbt->process(4,2);\
-	int test2 = fbt->process(3,4);\
-	int test3= fbt->process(10,1);\
-	int test4 = fbt->process(2,2);\
-	int test5 = fbt->process(8,12800);\
-\
-	cout << test << endl;\
-	cout << test2 << endl;\
-	cout << test3 << endl;\
-	cout << test4 << endl;\
-	cout << test5 << endl;*/\
 	return 0;\
 \}\
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
-\cf0 \
+\
 }
